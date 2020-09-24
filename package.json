@@ -1,0 +1,26 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "building a blog platform",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel index.js -d dist",
+    "start": "npm run build && nodemon dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrismatgit/blog.git"
+  },
+  "author": "Chris Matabaro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chrismatgit/blog/issues"
+  },
+  "homepage": "https://github.com/chrismatgit/blog#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "nodemon": "^2.0.4"
+  }
+}
