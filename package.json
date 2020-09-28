@@ -2,10 +2,10 @@
   "name": "blog",
   "version": "1.0.0",
   "description": "building a blog platform",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "build": "babel index.js -d dist",
-    "start": "npm run build && nodemon dist/index.js"
+    "build": "babel-watch server.js -d dist",
+    "start": "babel-watch server.js"
   },
   "repository": {
     "type": "git",
@@ -21,10 +21,22 @@
     "@babel/cli": "^7.11.6",
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
+    "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
+    "eslint": "^7.10.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1",
     "nodemon": "^2.0.4"
   },
   "dependencies": {
+    "@babel/node": "^7.10.5",
+    "babel-watch": "^7.0.0",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "logger": "0.0.1",
     "mysql2": "^2.2.5",
     "sequelize": "^6.3.5"
   }
