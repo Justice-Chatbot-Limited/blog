@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@babel/node": "^7.10.5",
+    "babel-preset-env": "^1.7.0",
     "babel-watch": "^7.0.0",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",

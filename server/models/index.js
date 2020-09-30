@@ -6,7 +6,7 @@ import {
   DIALECT,
 } from "../database/db.config.js";
 import Sequelize from "sequelize";
-import { userModel } from './userModel';
+import User from './userModel';
 import { postModel } from './postModel';
 
 const sequelize = new Sequelize('blogv1','root', '', {
@@ -20,7 +20,7 @@ const sequelize = new Sequelize('blogv1','root', '', {
   },
 });
 
-const user = userModel(sequelize, Sequelize);
+const user = User(sequelize, Sequelize);
 const post = postModel(sequelize, Sequelize);
 
 sequelize.sync({ force: false }).then(() => {

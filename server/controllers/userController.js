@@ -1,19 +1,24 @@
-import { user } from "../models/index";
 import { Sequelize } from "sequelize";
+import { user } from "../models/index";
 
-export function createUser(req, res) {
-  try {
-    let checkdata = user.findOne({ where: { email: req.body.email } });
-    if (checkdata) {
+export class UserController {
+  static async signup(req, res) {
+    const userExit = await user.findOne({ where: { email: req.body.email } });
+    console.log(userExit);
+    console.log(userExit)
+
+    if (userExit) {
       return res.status(400).json({
         status: 400,
-        message: "Already Exist",
-        data: checkdata,
+        error: "User already exist with that mail",
       });
     } else {
-      let createdata = user.create(req.body, {
-        fields: ["username", "email", "password"],
-      });
+      const newUser = {
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+      };
+      const createdata = await user.create(newUser);
       if (createdata) {
         res.json({
           success: true,
@@ -22,14 +27,7 @@ export function createUser(req, res) {
         });
       }
     }
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      success: false,
-      message: "Something went wrong!",
-    });
   }
 }
 
-export function getUser(req, res) {
-}
+export default UserController;
