@@ -32,4 +32,12 @@ app.get('/', (req, res) => {
 // API Entry
 app.use('/api/v1', router);
 
+// Handling Unknown Url
+app.use('*', (req, res) => {
+  res.status(404).json({
+    status: 404,
+    error: 'Wrong http request'
+  });
+});
+
 export default app;
