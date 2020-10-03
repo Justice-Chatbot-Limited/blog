@@ -49,7 +49,7 @@ class Auth {
       
     } else {
       return res.status(403).json({
-        status: "forbidden",
+        status: 403,
         success: "failed",
         message: "No authorization token provided",
       });
