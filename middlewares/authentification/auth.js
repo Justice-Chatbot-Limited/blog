@@ -9,7 +9,6 @@ dotenv.config();
  * @class Auth
  */
 class Auth {
-  
   /**
    * Checks if the token
    * contains an authorized user
@@ -35,7 +34,7 @@ class Auth {
 
     if ({ token }) {
       await jwt.verify(req.token, process.env.SECRET, (err, authUser) => {
-       // console.log(req.authUser);
+        // console.log(req.authUser);
         if (err) {
           return res.status(201).json({
             status: 200,
@@ -46,7 +45,6 @@ class Auth {
         }
         next();
       });
-      
     } else {
       return res.status(403).json({
         status: 403,
@@ -54,7 +52,6 @@ class Auth {
         message: "No authorization token provided",
       });
     }
-
   }
 }
 export default Auth;
