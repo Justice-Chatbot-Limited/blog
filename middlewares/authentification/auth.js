@@ -32,17 +32,16 @@ class Auth {
 
     const token = authorization.split(" ")[1];
 
-    if ({ token }) {
-      await jwt.verify(req.token, process.env.SECRET, (err, authUser) => {
+    if ( token ) {
+      await jwt.verify(token, process.env.SECRET, (err, authUser) => {
         // console.log(req.authUser);
         if (err) {
-          return res.status(201).json({
-            status: 200,
-            success: "Token created",
-            message: "Succefully authenticated",
-            token,
+          return res.status(401).json({
+            status: 401,
+            message: "Failed to authentificate the token",
           });
         }
+        req.user = authUser
         next();
       });
     } else {

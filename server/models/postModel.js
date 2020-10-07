@@ -1,21 +1,26 @@
-export function postModel(sequelize, Sequelize) {
-  try {
-    sequelize.define("post", {
+module.exports = (sequelize, Sequelize) => {
+  const Post = sequelize.define(
+    'Post',
+    {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
+        autoIncrement: true
       },
       userid: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.STRING,
-      },
-    });
-  } catch (err) {
-    console.log(err);
-  }
-}
+        type: Sequelize.STRING
+      }
+    },
+    {
+      tableName: 'post'
+    },
+    {}
+  );
+  return Post;
+};
