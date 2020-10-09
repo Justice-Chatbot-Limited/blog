@@ -1,5 +1,5 @@
 import Joi from '@hapi/joi';
-import Errors from '../../helpers/errors';
+import Errors from '../../server/helpers/responses';
 /**
  * Contains validations for the post in our blog
  *
