@@ -1,8 +1,31 @@
 import { Sequelize } from "sequelize";
 import jwt from "jsonwebtoken";
-import { user } from "../models/index";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import { Errors } from "../../helpers/errors";
+import { user } from "../models/index";
+import ControllersResponse from "../helpers/responses";
+import {
+  emailExist,
+  wrongCreditentialsMsg,
+} from "../constante/customeMessages";
+import {
+  successCode,
+  createdCode,
+  errorCode,
+  badRequestCode,
+  forbiddenCode,
+  unauthorizedCode,
+  internalServerErrorCode,
+} from "../constante/statusCodes";
+import {
+  successMsg,
+  failMsg,
+  badRequestMsg,
+  notFound,
+  forbidddenMsg,
+  internalServerErroMsg,
+} from "../constante/statusMessages";
 dotenv.config();
 
 export class UserController {
@@ -10,10 +33,7 @@ export class UserController {
     // Checking if the user already exist
     const userExit = await user.findOne({ where: { email: req.body.email } });
     if (userExit) {
-      return res.status(400).json({
-        status: 400,
-        error: "User already exist with that mail",
-      });
+      ControllersResponse.errorResponse(res, badRequestCode, emailExist);
     } else {
       const { username, email, password } = req.body;
       try {
@@ -38,26 +58,25 @@ export class UserController {
         const token = jwt.sign({ id }, process.env.SECRET, {
           expiresIn: "24h",
         });
-        
+
         // Remove the password
-        delete req.body.password
+        delete req.body.password;
 
         if (createdata) {
-          res.status(201).json({
-            success: 201,
-            message: "User Created Successfully",
-            data: Object.assign({ id },  req.body, { token }),
-          });
+          const data = Object.assign({ id }, req.body, { token });
+          ControllersResponse.successResponse(
+            res,
+            createdCode,
+            successMsg,
+            data
+          );
         }
       } catch (e) {
-        return res.status(400).json({
-          status: 400,
-          message: "something went wrong",
-        });
+        Errors.errorResponse(res, e);
       }
     }
   }
-   /**
+  /**
    * Signin the user
    *
    * @static
@@ -83,23 +102,31 @@ export class UserController {
           const token = jwt.sign({ id }, process.env.SECRET, {
             expiresIn: "24H",
           });
-
-          return res.status(200).json({
-            status: 200,
-            data: Object.assign({ id }, { username }, { token }),
-          });
+          const data = Object.assign({ id }, { username }, { token });
+          ControllersResponse.successResponse(
+            res,
+            successCode,
+            successMsg,
+            data
+          );
         }
         // The case where the password don't match with the one stored
-        return res.status(401).json({
-          status: 401,
-          message: "Wrong Password",
-        });
+        ControllersResponse.errorResponse(
+          res,
+          unauthorizedCode,
+          wrongCreditentialsMsg
+        );
+        // return res.status(401).json({
+        //   status: 401,
+        //   message: "Wrong Password",
+        // });
       }
-      // The case where does not exist
-      return res.status(404).json({
-        status: 404,
-        message: "User with the provided email does not exit",
-      });
+      // The case where the user does not exist
+      ControllersResponse.errorResponse(
+        res,
+        unauthorizedCode,
+        wrongCreditentialsMsg
+      );
     } catch (e) {
       Errors.errorResponse(res, e);
     }
